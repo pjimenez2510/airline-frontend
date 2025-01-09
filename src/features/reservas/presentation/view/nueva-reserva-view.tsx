@@ -75,7 +75,11 @@ export default function NuevaReservaView({ idVuelo }: NuevaReservaViewProps) {
     );
   }
 
-  const asientosOcupados = new Set(reservas?.map((r) => r.NumeroAsiento));
+  const asientosOcupados = new Set(
+    reservas
+      ?.filter((r) => r.Estado !== "cancelada")
+      .map((r) => r.NumeroAsiento)
+  );
   const asientosDisponibles = Array.from(
     { length: vuelo.AsientosDisponibles },
     (_, i) => (i + 1).toString()
