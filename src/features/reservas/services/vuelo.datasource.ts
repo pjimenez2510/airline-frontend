@@ -3,6 +3,14 @@ import { Vuelo } from "../interfaces/vuelo.interface";
 
 interface IVueloService {
   vuelosFuturos(): Promise<Vuelo[]>;
+  getCiudadesDestino(): Promise<string[]>;
+  getCiudadesOrigen(): Promise<string[]>;
+  getVuelo(id: string): Promise<Vuelo>;
+  buscarVuelos(
+    origen: string,
+    destino: string,
+    fecha: string
+  ): Promise<Vuelo[]>;
 }
 
 export class VueloService implements IVueloService {
@@ -12,6 +20,38 @@ export class VueloService implements IVueloService {
 
   private constructor() {
     this.axiosCLient = AxiosClient.getInstance();
+  }
+  async getVuelo(id: string): Promise<Vuelo> {
+    const { data } = await this.axiosCLient.get<Vuelo>(
+      `${this.url}/vuelos/${id}`
+    );
+    return data.Data;
+  }
+  async buscarVuelos(
+    origen: string,
+    destino: string,
+    fecha: string
+  ): Promise<Vuelo[]> {
+    const { data } = await this.axiosCLient.get<Vuelo[]>(`${this.url}/vuelos`, {
+      params: {
+        origen,
+        destino,
+        fecha,
+      },
+    });
+    return data.Data;
+  }
+  async getCiudadesDestino(): Promise<string[]> {
+    const { data } = await this.axiosCLient.get<string[]>(
+      `${this.url}/ciudades/destino`
+    );
+    return data.Data;
+  }
+  async getCiudadesOrigen(): Promise<string[]> {
+    const { data } = await this.axiosCLient.get<string[]>(
+      `${this.url}/ciudades/origen`
+    );
+    return data.Data;
   }
 
   async vuelosFuturos(): Promise<Vuelo[]> {

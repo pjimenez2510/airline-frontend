@@ -10,3 +10,46 @@ export const useVuelosFuturosQuery = () => {
 
   return query;
 };
+
+export const useCiudadesDestinoQuery = () => {
+  const query = useQuery({
+    queryKey: [QUERY_KEYS.CIUDADES_DESTINO],
+    queryFn: async () => await VueloService.getInstance().getCiudadesDestino(),
+  });
+
+  return query;
+};
+
+export const useCiudadesOrigenQuery = () => {
+  const query = useQuery({
+    queryKey: [QUERY_KEYS.CIUDADES_ORIGEN],
+    queryFn: async () => await VueloService.getInstance().getCiudadesOrigen(),
+  });
+
+  return query;
+};
+
+export const useBuscarVuelosQuery = (
+  origen: string,
+  destino: string,
+  fecha: string
+) => {
+  const query = useQuery({
+    queryKey: [QUERY_KEYS.VUELOS, origen, destino, fecha],
+    queryFn: async () =>
+      await VueloService.getInstance().buscarVuelos(origen, destino, fecha),
+    enabled: !!origen && !!destino && !!fecha,
+  });
+
+  return query;
+};
+
+export const useVueloPorIdQuery = (id: string) => {
+  const query = useQuery({
+    queryKey: [QUERY_KEYS.VUELOS, id],
+    queryFn: async () => await VueloService.getInstance().getVuelo(id),
+    enabled: !!id,
+  });
+
+  return query;
+};
