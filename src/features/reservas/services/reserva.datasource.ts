@@ -4,7 +4,7 @@ import { Reserva } from "../interfaces/reserva.interface";
 interface IReservaService {
   reservaPorVuelo(idVuelo: string): Promise<Reserva[]>;
   reservaPorUsuario(idUsuario: string): Promise<Reserva[]>;
-  cancelarReserva(idReserva: string, idUsuario): Promise<void>;
+  cancelarReserva(idReserva: string, idUsuario: string): Promise<void>;
 }
 
 export class ReservaService implements IReservaService {
@@ -15,7 +15,7 @@ export class ReservaService implements IReservaService {
   private constructor() {
     this.axiosCLient = AxiosClient.getInstance();
   }
-  cancelarReserva(idReserva: string, idUsuario: any): Promise<void> {
+  cancelarReserva(idReserva: string, idUsuario: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
   async reservaPorUsuario(idUsuario: string): Promise<Reserva[]> {
